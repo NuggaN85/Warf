@@ -14,7 +14,7 @@ Le formulaire HTML inclut un champ de jeton CSRF caché qui est envoyé avec la 
 
 Notez que cet exemple est très simple et qu'une implémentation réelle de WARF devrait inclure des mesures de sécurité supplémentaires telles que l'utilisation de cookies sécurisés et la configuration d'un délai d'expiration pour les jetons CSRF.
  
-Nous avons ajouté les mesures de sécurité suivantes :
+Chose faite, nous avons ajouté les mesures de sécurité suivantes :
 
 Nous avons défini des constantes de configuration pour la durée de validité du jeton CSRF, le nom du cookie CSRF et la clé secrète utilisée pour signer le jeton CSRF.
 Nous avons stocké le jeton CSRF dans un cookie sécurisé en utilisant la fonction `setcookie()` avec les options `secur`e et `httponly` pour protéger le cookie contre les attaques XSS et les interceptions réseau.
