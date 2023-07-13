@@ -2,9 +2,17 @@
 // Définition des constantes de configuration
 define('TOKEN_EXPIRATION', 3600); // Durée de validité du jeton CSRF en secondes
 define('TOKEN_COOKIE_NAME', 'csrf_token'); // Nom du cookie CSRF
-define('TOKEN_SECRET_KEY', 'my_secret_key'); // Clé secrète pour signer le jeton CSRF
 
 session_start();
+
+function generateRandomKey($length = 32)
+{
+    $key = bin2hex(random_bytes($length));
+    return $key;
+}
+
+$tokenSecretKey = generateRandomKey();
+define('TOKEN_SECRET_KEY', $tokenSecretKey); // Clé secrète pour signer le jeton CSRF
 
 function generate_csrf_token() {
     $token = bin2hex(random_bytes(32));
