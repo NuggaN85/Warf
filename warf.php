@@ -21,7 +21,7 @@ function generate_csrf_token() {
 }
 
 function verify_csrf_token() {
-    if (isset($_COOKIE[TOKEN_COOKIE_NAME])) {
+    if (isset($_COOKIE[TOKEN_COOKIE_NAME], $_SESSION['token'])) {
         $cookie_token = $_COOKIE[TOKEN_COOKIE_NAME];
         $signature = hash_hmac('sha256', $cookie_token, TOKEN_SECRET_KEY);
         return hash_equals($signature, $_SESSION['token']);
@@ -30,7 +30,7 @@ function verify_csrf_token() {
 }
 
 function remove_expired_csrf_cookie() {
-    if (isset($_COOKIE[TOKEN_COOKIE_NAME])) {
+    if (isset($_COOKIE[TOKEN_COOKIE_NAME], $_SESSION['token'])) {
         $cookie_token = $_COOKIE[TOKEN_COOKIE_NAME];
         $signature = hash_hmac('sha256', $cookie_token, TOKEN_SECRET_KEY);
         if (!hash_equals($signature, $_SESSION['token'])) {
@@ -41,7 +41,7 @@ function remove_expired_csrf_cookie() {
 }
 
 // Vérification du jeton CSRF
-if (isset($_POST['token']) && !verify_csrf_token()) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !verify_csrf_token()) {
     die('Jeton CSRF invalide.');
 }
 
