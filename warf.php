@@ -23,7 +23,7 @@ function generate_csrf_token() {
 function verify_csrf_token() {
     if (isset($_COOKIE[TOKEN_COOKIE_NAME], $_SESSION['token'])) {
         $cookie_token = $_COOKIE[TOKEN_COOKIE_NAME];
-        $signature = hash_hmac('sha256', $cookie_token, TOKEN_SECRET_KEY);
+        $signature = hash_hmac('sha3-256', $cookie_token, TOKEN_SECRET_KEY);
         return hash_equals($signature, $_SESSION['token']);
     }
     return false;
@@ -32,7 +32,7 @@ function verify_csrf_token() {
 function remove_expired_csrf_cookie() {
     if (isset($_COOKIE[TOKEN_COOKIE_NAME], $_SESSION['token'])) {
         $cookie_token = $_COOKIE[TOKEN_COOKIE_NAME];
-        $signature = hash_hmac('sha256', $cookie_token, TOKEN_SECRET_KEY);
+        $signature = hash_hmac('sha3-256', $cookie_token, TOKEN_SECRET_KEY);
         if (!hash_equals($signature, $_SESSION['token'])) {
             unset($_COOKIE[TOKEN_COOKIE_NAME]);
             setcookie(TOKEN_COOKIE_NAME, null, -1, '/');
